@@ -55,5 +55,6 @@ for (let i = 0; i < 20; i++) {
         await mainFunc();
     } catch (e) {
         console.log('Proses selesai.')
+        break
     }
 }
