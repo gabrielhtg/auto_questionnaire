@@ -13,8 +13,8 @@ const mainFunc = async () => {
     const inputPassword = await page.locator('#loginform-password')
     const loginButton = await page.waitForSelector('::-p-xpath(/html/body/div/div/form/div[2]/div[2]/button)')
 
-    await inputUsername.fill('ifs21005')
-    await inputPassword.fill('nana21005')
+    await inputUsername.fill('your username')
+    await inputPassword.fill('your password')
     await loginButton.click();
 
     await page.waitForNavigation({ waitUntil: "domcontentloaded" });
