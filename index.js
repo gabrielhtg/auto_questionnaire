@@ -13,8 +13,21 @@ const mainFunc = async () => {
     const inputPassword = await page.locator('#loginform-password')
     const loginButton = await page.waitForSelector('::-p-xpath(/html/body/div/div/form/div[2]/div[2]/button)')
 
-    await inputUsername.fill('your username')
-    await inputPassword.fill('your password')
+    const username = prompt('Masukkan username : ')
+    const password = prompt('Masukkan password : ')
+    const isRandom = prompt('Is Random (y/n) : ')
+    let selection = 0
+
+    if (isRandom === 'n') {
+        console.log('Sangat Setuju (0)')
+        console.log('Setuju (1)')
+        console.log('Cukup Setuju (2)')
+        console.log('Tidak Setuju (3)')
+        selection = prompt('Choose number of your option to be select : ')
+    }
+
+    await inputUsername.fill(username)
+    await inputPassword.fill(password)
     await loginButton.click();
 
     await page.waitForNavigation({ waitUntil: "domcontentloaded" });
@@ -37,8 +50,14 @@ const mainFunc = async () => {
         const inputs = await row.$$("label");
 
         if (inputs.length > 0) {
-            const randomIndex = Math.floor(Math.random() * inputs.length);
-            await inputs[randomIndex].click(); // Klik dengan Puppeteer
+            if (isRandom === 'y') {
+                const randomIndex = Math.floor(Math.random() * inputs.length);
+                await inputs[randomIndex].click();
+            }
+
+            if (isRandom === 'n') {
+                await inputs[selection].click();
+            }
         }
     }
 
