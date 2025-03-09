@@ -80,14 +80,19 @@ const mainFunc = async (username, password, isRandom) => {
 const username = await askQuestion('Masukkan username : ')
 const password = await askQuestion('Masukkan password : ')
 const isRandom = await askQuestion('Is Random (y/n) : ')
+let isDone = false;
 
 for (let i = 0; i < 20; i++) {
-    try {
-        await mainFunc(username, password, isRandom);
-        console.log(`Kuisioner ${i + 1} selesai.`)
-    } catch (e) {
-        console.log('Proses selesai.')
-        break
+    if (!isDone) {
+        try {
+            await mainFunc(username, password, isRandom);
+            console.log(`Kuisioner ${i + 1} selesai.`)
+        } catch (e) {
+            console.log('Proses selesai.')
+            isDone = true;
+        }
+    } else {
+        break;
     }
 }
 
