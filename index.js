@@ -45,7 +45,7 @@ const mainFunc = async (username, password, isRandom) => {
     const links = await page.evaluate(() => {
         return Array.from(document.querySelectorAll("a"))
             .map(link => link.href)
-            .filter(href => href.includes("/srvy/kuesioner/vote-kuesioner")); // Filter link yang sesuai pola
+            .filter(href => href.includes("/srvy/kuesioner/vote-kuesioner"));
     });
 
     await page.goto(links[0]);
