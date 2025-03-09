@@ -1,6 +1,16 @@
 import puppeteer from 'puppeteer';
+import readline from 'readline';
 
-const mainFunc = async () => {
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+const askQuestion = (query) => {
+    return new Promise((resolve) => rl.question(query, resolve));
+};
+
+const mainFunc = async (username, password, isRandom) => {
     // const browser = await puppeteer.launch({browser: 'firefox', headless: false});
     const browser = await puppeteer.launch({browser: 'firefox', headless: true});
     const page = await browser.newPage();
@@ -13,12 +23,10 @@ const mainFunc = async () => {
     const inputPassword = await page.locator('#loginform-password')
     const loginButton = await page.waitForSelector('::-p-xpath(/html/body/div/div/form/div[2]/div[2]/button)')
 
-    const username = prompt('Masukkan username : ')
-    const password = prompt('Masukkan password : ')
-    const isRandom = prompt('Is Random (y/n) : ')
+
     let selection = 0
 
-    if (isRandom === 'n') {
+    if (isRandom.toLowerCase() === 'n') {
         console.log('Sangat Setuju (0)')
         console.log('Setuju (1)')
         console.log('Cukup Setuju (2)')
@@ -69,11 +77,18 @@ const mainFunc = async () => {
     await browser.close()
 };
 
+const username = await askQuestion('Masukkan username : ')
+const password = await askQuestion('Masukkan password : ')
+const isRandom = await askQuestion('Is Random (y/n) : ')
+
 for (let i = 0; i < 20; i++) {
     try {
-        await mainFunc();
+        await mainFunc(username, password, isRandom);
+        console.log(`Kuisioner ${i + 1} selesai.`)
     } catch (e) {
         console.log('Proses selesai.')
         break
     }
 }
+
+rl.close();
